@@ -6,6 +6,7 @@ local function gmodRequire(path)
 
     local absolutePathExists = file.Exists(ROOT_PATH .. path, "LUA")
     if absolutePathExists then
+        if SERVER then AddCSLuaFile(ROOT_PATH .. path) end
         return include(ROOT_PATH .. path)
     end
 
@@ -20,6 +21,7 @@ local function gmodRequire(path)
     local relativePathExists = file.Exists(ROOT_PATH .. relativePath, "LUA")
 
     if relativePathExists then
+        if SERVER then AddCSLuaFile(ROOT_PATH .. relativePath) end
         return include(ROOT_PATH .. relativePath)
     end
 
