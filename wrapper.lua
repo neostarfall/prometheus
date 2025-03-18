@@ -1,5 +1,6 @@
 -- GMod-compliant wrapper over the pure Lua prometheus library.
 local ROOT_PATH = "starfall/thirdparty/prometheus/src/"
+AddCSLuaFile()
 
 local function gmodRequire(path)
     path = path:gsub("%.", "/") .. ".lua"
@@ -31,6 +32,7 @@ end
 local oldRequire = require
 _G.require = gmodRequire
 
+AddCSLuaFile("src/prometheus.lua")
 local prometheus = include("src/prometheus.lua")
 
 _G.require = oldRequire
