@@ -711,6 +711,11 @@ function Parser:expressionUnary(scope)
 		local rhs = self:expressionUnary(scope);
 		return Ast.NotExpression(rhs, true);
 	end
+
+	if (consume(self, TokenKind.Symbol, "!")) then
+        local rhs = self:expressionUnary(scope);
+        return Ast.NotExpression(rhs, true);
+	end
 	
 	if(consume(self, TokenKind.Symbol, "#")) then
 		local rhs = self:expressionUnary(scope);
