@@ -236,7 +236,7 @@ end
 
 -- skip one or 0 Comments and return wether one was found
 function Tokenizer:skipComment()
-	if(is(self, "-", 0) and is(self, "-", 1)) then
+	if((is(self, "-", 0) and is(self, "-", 1)) or (is(self, "/", 0) and is(self, "/", 1))) then
 		self.index = self.index + 2;
 		if(is(self, "[")) then
 			self.index = self.index + 1;
@@ -265,11 +265,26 @@ function Tokenizer:skipComment()
 				end
 			end
 		end
+
 		-- Single Line Comment
 		-- Get all Chars to next Newline
 		while(self.index < self.length and self:parseAnnotation() ~= "\n") do end
 		return true;
 	end
+
+    -- C multi line comment
+    if (is(self, "/", 0) and is(self, "*", 1)) then
+        self.index = self.index + 2;
+
+        -- skip ahead till we find the end of the comment
+        while self.index < self.length do
+            if (is(self, "*", 0) and is(self, "/", 1)) then
+                self.index = self.index + 2;
+                return true
+            end
+            self.index = self.index + 1;
+        end
+    end
 	return false;
 end
 

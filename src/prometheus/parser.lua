@@ -196,7 +196,7 @@ function Parser:statement(scope, currentLoop)
 	end
 	
 	-- Continue Statement - only valid inside of Loops - only valid in LuaU
-	if(self.luaVersion == LuaVersion.LuaU and consume(self, TokenKind.Keyword, "continue")) then
+	if(consume(self, TokenKind.Keyword, "continue")) then
 		if(not currentLoop) then
 			if self.disableLog then error() end;
 			logger:error(generateError(self, "the continue Statement is only valid inside of loops"));
@@ -571,7 +571,12 @@ function Parser:expressionOr(scope)
 		local rhs = self:expressionOr(scope);
 		return Ast.OrExpression(lhs, rhs, true);
 	end
-	
+
+	if(consume(self, TokenKind.Symbol, "||")) then
+		local rhs = self:expressionOr(scope);
+		return Ast.OrExpression(lhs, rhs, true);
+	end
+
 	return lhs;
 end
 
@@ -579,6 +584,11 @@ function Parser:expressionAnd(scope)
 	local lhs = self:expressionComparision(scope);
 
 	if(consume(self, TokenKind.Keyword, "and")) then
+		local rhs = self:expressionAnd(scope);
+		return Ast.AndExpression(lhs, rhs, true);
+	end
+
+	if(consume(self, TokenKind.Symbol, "&&")) then
 		local rhs = self:expressionAnd(scope);
 		return Ast.AndExpression(lhs, rhs, true);
 	end
@@ -618,6 +628,12 @@ function Parser:expressionComparision(scope)
 			local rhs = self:expressionStrCat(scope);
 			curr = Ast.NotEqualsExpression(curr, rhs, true);
 			found = true;
+		end
+
+		if (consume(self, TokenKind.Symbol, "!=")) then
+		    local rhs = self:expressionStrCat(scope);
+            curr = Ast.NotEqualsExpression(curr, rhs, true);
+            found = true;
 		end
 	
 		if(consume(self, TokenKind.Symbol, "==")) then

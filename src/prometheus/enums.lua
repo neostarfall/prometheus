@@ -18,16 +18,18 @@ Enums.Conventions = {
 			"and",    "break",  "do",    "else",     "elseif", 
 			"end",    "false",  "for",   "function", "if",   
 			"in",     "local",  "nil",   "not",      "or",
-			"repeat", "return", "then",  "true",     "until",    "while"
+			"repeat", "return", "then",  "true",     "until",    "while",
+			"continue"
 		},
 		
-		SymbolChars = chararray("+-*/%^#=~<>(){}[];:,."),
+		SymbolChars = chararray("!+-*/%^#=~<>(){}[];:,.&|"),
 		MaxSymbolLength = 3,
 		Symbols = {
-			"+",  "-",  "*",  "/",  "%",  "^",  "#",
-			"==", "~=", "<=", ">=", "<",  ">",  "=",
+			"!", "+",  "-",  "*",  "/",  "%",  "^",  "#",
+			"==", "!=", "~=", "<=", ">=", "<",  ">",  "=",
 			"(",  ")",  "{",  "}",  "[",  "]",
 			";",  ":",  ",",  ".",  "..", "...",
+			"&&", "||"
 		},
 
 		IdentChars          = chararray("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789"),
