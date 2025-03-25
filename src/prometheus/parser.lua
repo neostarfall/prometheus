@@ -734,7 +734,7 @@ function Parser:expressionPow(scope)
 	local lhs = self:tableOrFunctionLiteral(scope);
 
 	if(consume(self, TokenKind.Symbol, "^")) then
-		local rhs = self:expressionPow(scope);
+		local rhs = self:expressionMulDivMod(scope);
 		return Ast.PowExpression(lhs, rhs, true);
 	end
 
